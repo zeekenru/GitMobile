@@ -1,0 +1,79 @@
+package com.kovapss.gitmobile.login
+
+import android.net.Uri
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
+import com.kovapss.gitmobile.model.AuthRepository
+import com.kovapss.gitmobile.Constants.CLIENT_ID
+import com.kovapss.gitmobile.Scopes.APP_SCOPE
+import com.kovapss.gitmobile.Scopes.NETWORK_SCOPE
+import com.kovapss.gitmobile.domain.LoginInteractor
+import com.orhanobut.logger.Logger
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import toothpick.Toothpick
+import javax.inject.Inject
+
+@InjectViewState
+class LoginPresenter : MvpPresenter<LoginView>() {
+
+    @Inject lateinit var repository: AuthRepository
+
+    @Inject lateinit var interactor: LoginInteractor
+
+
+    private val cd: CompositeDisposable = CompositeDisposable()
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        Toothpick.inject(this, Toothpick.openScopes(NETWORK_SCOPE, APP_SCOPE))
+        viewState.loadUrl(interactor.getAuthUrlCase())
+    }
+
+    fun onPageStarted() {
+        viewState.showProgress()
+    }
+
+    fun onPageFinished() {
+        viewState.hideProgress()
+    }
+
+
+    fun shouldOverrideUrlLoading(url: String?): Boolean {
+        if (url != null) {
+            when (true) {
+
+                url.contains(CLIENT_ID) -> {
+                    viewState.loadUrl(url)
+                    return true
+                }
+
+                url.contains("code", true) -> {
+                    viewState.showProgress()
+                    val uri = Uri.parse(url)
+                    val code = uri.getQueryParameter("code")
+                    Logger.d("Code : $code")
+                    cd.add(interactor.authUserCase(code)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnError(Logger::d)
+                            .doOnComplete { viewState.setOkResult() }
+                            .subscribe()
+                    )
+                    return true
+                }
+
+            }
+
+            return true
+        }
+        return false
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cd.clear()
+    }
+
+
+}
