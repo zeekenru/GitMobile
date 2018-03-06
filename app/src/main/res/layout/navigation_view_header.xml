@@ -3,13 +3,16 @@
     android:id="@+id/header_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="192dp">
+    android:layout_height="192dp"
+    android:visibility="invisible"
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_centerVertical="true"
+        android:src="@drawable/default_avatar"
         android:id="@+id/avatar_image_view"/>
 
     <TextView
@@ -21,6 +24,6 @@
         android:layout_toEndOf="@+id/avatar_image_view"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:text="Pety Petrov"/>
+        android:text="zeekenru"/>
 
 </RelativeLayout>

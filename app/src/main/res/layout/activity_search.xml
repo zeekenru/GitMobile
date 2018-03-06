@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kovapss.gitmobile.search.SearchActivity">
+    tools:context=".view.search.SearchActivity">
+
     <include
         android:id="@+id/search_toolbar"
-        layout="@layout/default_toolbar"/>
+        layout="@layout/default_toolbar" />
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/search_bottom_navview"
         android:layout_below="@id/search_toolbar"
-        tools:listitem="@layout/repository_item"
-        />
+        tools:listitem="@layout/repository_item" />
+
     <include
+        android:id="@+id/progress_bar"
         layout="@layout/progress_bar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:id="@+id/search_progress_bar"/>
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
 
+    <include
+        android:id="@+id/network_error_placeholder"
+        layout="@layout/internet_error_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:visibility="invisible" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/search_bottom_navview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/search_activity_bottom_navview_menu" />
 
 
 </RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kovapss.gitmobile.view.repositories.detail.files.viewer.FileViewerActivity">
+    <include
+        android:id="@+id/file_viewer_toolbar"
+        layout="@layout/default_toolbar"/>
+    <com.pddstudio.highlightjs.HighlightJsView
+        android:id="@+id/repo_file_code_view"
+        android:layout_below="@id/file_viewer_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

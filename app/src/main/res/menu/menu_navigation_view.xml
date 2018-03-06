@@ -9,8 +9,15 @@
             android:title="@string/home"
             app:showAsAction="always"/>
     </group>
+    <group android:orderInCategory="2">
+        <item
+            android:id="@+id/menu_account"
+            android:title="@string/profile"
+            android:icon="@drawable/ic_account"
+            app:showAsAction="always"/>
+    </group>
     <group
-        android:orderInCategory="2">
+        android:orderInCategory="3">
         <item
             android:id="@+id/menu_gists"
             android:icon="@drawable/ic_file"
@@ -21,24 +28,11 @@
             android:icon="@drawable/ic_folder"
             android:title="@string/repositories"
             app:showAsAction="always"/>
-        <item
-            android:id="@+id/menu_issues"
-            android:icon="@drawable/ic_issues"
-            android:title="@string/issues"
-            app:showAsAction="always"/>
-    </group>
-    <group
-        android:orderInCategory="3">
-        <item
-            android:id="@+id/menu_apps"
-            android:icon="@drawable/ic_apps"
-            android:title="@string/applications"
-            app:showAsAction="always"/>
-        <item
-            android:id="@+id/menu_orgs"
-            android:icon="@drawable/ic_orgs"
-            android:title="@string/organisations"
-            app:showAsAction="always"/>
+        <!--<item-->
+            <!--android:id="@+id/menu_issues"-->
+            <!--android:icon="@drawable/ic_issues"-->
+            <!--android:title="@string/issues"-->
+            <!--app:showAsAction="always"/>-->
     </group>
 
     <group
@@ -47,6 +41,14 @@
             android:id="@+id/menu_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings"
+            app:showAsAction="always"/>
+    </group>
+    <group
+        android:orderInCategory="5">
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_info"
+            android:title="@string/about"
             app:showAsAction="always"/>
     </group>
 

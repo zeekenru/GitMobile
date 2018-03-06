@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/gist_detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:elevation="4dp"
+            app:titleTextColor="@android:color/black">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/gist_detail_avatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/default_avatar" />
+
+                <TextView
+                    android:id="@+id/gist_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/gist_detail_avatar"
+                    android:layout_marginStart="17dp"
+                    android:layout_toEndOf="@+id/gist_detail_avatar"
+                    android:text="zeekenru"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/gist_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/gist_login"
+                    android:layout_below="@+id/gist_login"
+                    android:layout_marginTop="8dp"
+                    android:text="2h ago" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/gist_detail_desctiption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/gist_detail_toolbar"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Example description text"
+            android:textSize="20sp" />
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progress_bar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+        <include
+            android:id="@+id/network_error_placeholder"
+            layout="@layout/internet_error_placeholder"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gist_detail_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gist_detail_desctiption"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"
+            tools:listitem="@layout/gist_detail_item" />
+
+        <TextView
+            android:id="@+id/gist_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/gist_detail_desctiption"
+            android:layout_below="@id/gist_detail_recyclerview"
+            android:layout_marginTop="20dp"
+            android:text="@string/comments"
+            android:textSize="20sp" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/write_comment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/gist_detail_desctiption"
+            android:layout_below="@id/gist_comments"
+            android:layout_marginTop="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/gist_add_comment_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/default_avatar" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/gist_add_comment_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="70dp"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/gist_add_comment_avatar"
+                android:hint="@string/write_comment"
+                android:inputType="textAutoCorrect|textLongMessage|textShortMessage"
+                android:minHeight="40dp" />
+
+            <ImageView
+                android:id="@+id/gist_add_comment_send_btn"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="22dp"
+                app:srcCompat="@drawable/ic_send" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gist_detail_comments_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/write_comment_layout"
+            android:layout_marginTop="15dp"
+            android:visibility="invisible"
+            tools:listitem="@layout/gist_comment" />
+        <TextView
+            android:id="@+id/no_comments_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_comments"
+            android:textSize="18sp"
+            android:layout_below="@id/write_comment_layout"
+            android:visibility="visible"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            />
+
+
+    </RelativeLayout>
+</ScrollView>

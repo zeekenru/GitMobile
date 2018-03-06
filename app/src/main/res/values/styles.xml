@@ -7,6 +7,11 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="drawerArrowStyle">@style/MyDrawerToggle</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
     <style name="MyDrawerToggle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -16,6 +21,14 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FAB" parent="Widget.Design.FloatingActionButton">
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="TopicsTheme" parent="TagGroup">
+        <item name="verticalPadding">1dp</item>
     </style>
 
 

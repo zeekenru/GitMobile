@@ -1,7 +1,7 @@
 package com.kovapss.gitmobile
 
 import android.app.Application
-import android.arch.persistence.room.RoomDatabase
+import android.preference.PreferenceManager
 import com.kovapss.gitmobile.di.modules.AppModule
 import com.kovapss.gitmobile.di.modules.NetworkModule
 import com.orhanobut.logger.AndroidLogAdapter
@@ -21,6 +21,7 @@ class App : Application() {
         appScope.installModules(AppModule(this))
         val serverScope = Toothpick.openScope(Scopes.NETWORK_SCOPE)
         serverScope.installModules(NetworkModule())
+        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply()
     }
 
 

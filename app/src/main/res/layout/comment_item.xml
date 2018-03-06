@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:minHeight="80dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/default_avatar" />
+
+    <TextView
+        android:id="@+id/comment_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/comment_avatar"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/comment_avatar"
+        android:text="buh0i"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/comment_login"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="33dp"
+        android:maxLines="1"
+        android:maxLength="16"
+        android:text="31 May 2010" />
+
+    <TextView
+        android:id="@+id/comment_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/comment_login"
+        android:layout_below="@+id/comment_login"
+        android:layout_marginTop="10dp"
+        android:text="If you have questions about the document itself (typos, more references, suggestions, etc), post them here. If you want to discuss GitHub OAuth in general, see the API forum."
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+</RelativeLayout>

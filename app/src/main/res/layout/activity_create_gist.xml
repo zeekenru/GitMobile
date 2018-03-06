@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kovapss.gitmobile.gists.create.CreateGistActivity">
+    tools:context=".view.gists.create.CreateGistActivity">
 
     <include
         android:id="@+id/gist_create_toolbar"

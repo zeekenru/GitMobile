@@ -7,8 +7,8 @@
     <WebView
         android:id="@+id/login_web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.kovapss.gitmobile.login.LoginActivity"/>
+        android:layout_height="wrap_content"
+        tools:context=".view.login.LoginActivity"/>
     <include
         layout="@layout/progress_bar"
         android:layout_width="60dp"

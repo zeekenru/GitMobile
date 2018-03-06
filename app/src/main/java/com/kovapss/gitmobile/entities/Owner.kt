@@ -1,10 +1,13 @@
 package com.kovapss.gitmobile.entities
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Owner(
         @SerializedName("login")
-        val login: String?,
+        val login: String,
         @SerializedName("type")
         val type: String,
         @SerializedName("url")
@@ -12,4 +15,4 @@ data class Owner(
         @SerializedName("avatar_url")
         val avatarUrl: String?,
         @SerializedName("id")
-        val id: Int)
+        val id: Int) : Parcelable

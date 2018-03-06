@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.profile.UserProfileActivity">
+    <include
+        android:id="@+id/user_profile_toolbar"
+        layout="@layout/default_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/profile_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/user_profile_toolbar"
+        android:layout_above="@id/user_profile_bottom_navview">
+
+    </FrameLayout>
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/progress_bar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/user_profile_bottom_navview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/user_profile_bottom_navview_menu" />
+
+
+</RelativeLayout>

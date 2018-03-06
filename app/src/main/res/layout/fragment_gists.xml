@@ -1,62 +1,69 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.kovapss.gitmobile.gists.GistsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.gists.GistsFragment">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/gists_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabGravity="fill"
-        app:tabMode="fixed">
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="my_gists"
-            android:text="@string/my"/>
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="starred_gists"
-            android:text="@string/starred"/>
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="public_gists"
-            android:text="@string/public_tab"/>
-    </android.support.design.widget.TabLayout>
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gists_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/gists_tab_layout">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/gists_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/gist_item"/>
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/gists_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_add"/>
-    </FrameLayout>
+        android:layout_above="@id/gist_bottom_nav_view"
+        android:visibility="invisible"
+        tools:listitem="@layout/gist_item" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/gists_fab"
+        style="@style/FAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="17dp"
+        android:visibility="visible"
+        app:layout_insetEdge="bottom"
+        app:srcCompat="@drawable/ic_add" />
+
     <include
+        android:id="@+id/progress_bar"
         layout="@layout/progress_bar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:visibility="invisible"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:id="@+id/progress_bar"/>
+        android:visibility="invisible" />
+
+    <include
+        android:id="@+id/network_error_placeholder"
+        layout="@layout/internet_error_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:visibility="invisible" />
+    <include
+        android:id="@+id/empty_result_placeholder"
+        layout="@layout/empty_result_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:visibility="invisible"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/gist_bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/gists_menu" />
 
 
 </RelativeLayout>

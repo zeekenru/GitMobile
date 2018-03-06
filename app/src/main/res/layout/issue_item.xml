@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/issue_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:text="Version 6.0.3 causes build error on LGPL2.1 document. Something whore"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/issue_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/issue_title"
+        android:layout_below="@+id/issue_title"
+        android:maxLength="20"
+        android:text="zeekenru" />
+
+    <TextView
+        android:id="@+id/issue_create_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/issue_author"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/issue_author"
+        android:text="2 days ago" />
+
+    <TextView
+        android:id="@+id/issue_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/issue_create_date"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/issue_create_date"
+        android:drawableEnd="@drawable/ic_comment_small"
+        android:drawablePadding="5dp"
+        android:text="13" />
+
+    <TextView
+        android:id="@+id/issue_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/issue_comment_count"
+        android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:layout_below="@id/issue_title"
+        android:layout_marginEnd="19dp"
+        android:text="CLOSED"
+        android:textColor="@android:color/holo_red_dark" />
+
+
+</RelativeLayout>

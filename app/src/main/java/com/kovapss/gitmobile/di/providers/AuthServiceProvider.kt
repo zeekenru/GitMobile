@@ -1,6 +1,6 @@
 package com.kovapss.gitmobile.di.providers
 
-import com.kovapss.gitmobile.model.AuthService
+import com.kovapss.gitmobile.model.api.AuthService
 import com.kovapss.gitmobile.Constants.OAUTH_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

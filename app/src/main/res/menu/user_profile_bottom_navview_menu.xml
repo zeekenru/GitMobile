@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_profile_overview"
+        android:title="@string/overview"
+        android:icon="@drawable/ic_overview"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_profile_repos"
+        android:title="@string/repositories"
+        android:icon="@drawable/ic_folder"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_profile_starred"
+        android:title="@string/starred"
+        android:icon="@drawable/ic_star"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_profile_gists"
+        android:title="@string/gists"
+        android:icon="@drawable/ic_gists"
+        app:showAsAction="always"/>
+</menu>

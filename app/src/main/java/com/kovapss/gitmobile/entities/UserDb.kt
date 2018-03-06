@@ -10,6 +10,7 @@ data class UserDb(
         @ColumnInfo(name = "github_id") var githubId: Long = 0,
         @ColumnInfo(name = "avatar_url") var avatarUrl: String = "empty",
         @ColumnInfo(name = "name") var name: String = "empty",
+        @ColumnInfo(name = "login") var login : String = "empty",
         @ColumnInfo(name = "location") var location: String? = "empty",
         @ColumnInfo(name = "email") var email: String? = "empty",
         @ColumnInfo(name = "bio") var bio: String? = "empty",

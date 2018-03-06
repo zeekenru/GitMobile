@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">GitMobile</string>
-    <string name="connection_error">Нет сети :(</string>
-    <string name="try_again">Повторить</string>
+    <string name="connection_error">No network :(</string>
+    <string name="try_again">Try again</string>
     <string name="toggle_open">Open</string>
     <string name="toggle_closed">Closed</string>
-    <string name="skip">Пропустить</string>
-    <string name="sign_in">Войти</string>
+    <string name="skip">Skip</string>
+    <string name="sign_in">Login</string>
     <string name="repository">Repository</string>
     <string name="code">Code</string>
     <string name="issues">Issues</string>
@@ -19,24 +19,36 @@
     <string name="extension">Расширение</string>
     <string name="content">Content</string>
     <string name="save">Сохранить</string>
-    <string name="description">Описание</string>
-    <string name="add_files">Добавить файлы</string>
+    <string name="description">Description</string>
+    <string name="add_files">Add files</string>
     <string name="content_type">Content Type</string>
     <string name="sort">Sort</string>
     <string name="order">Order</string>
     <string name="my">My</string>
     <string name="starred">Starred</string>
-    <string name="public_tab">public</string>
+    <string name="public_tab">Public</string>
     <string name="done">Done</string>
     <string name="home">Home</string>
     <string name="gists">Gists</string>
     <string name="repositories">Repositories</string>
-    <string name="issues">Issues</string>
+    <string name="my_repositories">My reposito</string>
     <string name="applications">Applications</string>
     <string name="organisations">Organisations</string>
     <string name="settings">Settings</string>
-    <string name="filters">Фильтры</string>
-    <string name="search">Поиск</string>
+    <string name="filters">Filters</string>
+    <string name="search">Search</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="star">Star</string>
+    <string name="fork">Fork</string>
+    <string name="owner">Owner</string>
+    <string name="comments">Comments</string>
+    <string name="no_network">No Network :(</string>
+    <string name="update">Update</string>
+    <string name="no_description">No description</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="write_comment">Write a comment</string>
+    <string name="overview">Overview</string>
+    <string name="send">Send</string>
     <string-array name="content_types">
         <item>@string/repository</item>
         <item>@string/code</item>
@@ -48,6 +60,11 @@
         <item>@string/stars</item>
         <item>@string/forks</item>
         <item>@string/updated</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>@string/russian</item>
+        <item>@string/english</item>
     </string-array>
 
     <string-array name="choose_files">
@@ -80,4 +97,30 @@
         <item>lua</item>
         <item>swift</item>
     </string-array>
+    <string name="nothing">Nothing :(</string>
+    <string name="watch">Watch</string>
+    <string name="readme">Readme</string>
+    <string name="files">Files</string>
+    <string name="opened">Opened</string>
+    <string name="closed">closed</string>
+    <string name="repo_closed_issue_tag">Closed</string>
+    <string name="repo_opened_issues_tab">Opened</string>
+
+    <string name="profile">Profile</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="language">Language</string>
+    <string name="pref_language">language_key</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
+    <string name="about">About</string>
+    <string name="no_comments">No comments :(</string>
+    <string name="need_to_login">Need to login</string>
+    <string name="gist_login_dialog_msg">You need to login in your Github account to star this gist</string>
+    <string name="no">No</string>
+    <string name="gists_login_dialog_msg">You need to login in your Github account to watch these gists</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_need_to_login">You need to login to your GitHub account to watch your profile</string>
+
 </resources>

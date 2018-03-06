@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    >
+    <TextView
+        android:id="@+id/commit_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/commit_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/commit_message"
+        android:layout_below="@+id/commit_message"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/commit_create_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/commit_author"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/commit_author" />
+
+    <TextView
+        android:id="@+id/commit_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/commit_create_date"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/commit_create_date"
+        android:drawableEnd="@drawable/ic_comment_small"
+        android:drawablePadding="5dp" />
+
+    <ImageView
+        android:id="@+id/commit_verification_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/commit_comment_count"
+        android:layout_marginEnd="8dp"
+        />
+
+    <!--<TextView-->
+        <!--android:id="@+id/commit_verification_state"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/issue_title"-->
+        <!--android:layout_alignBottom="@+id/commit_comment_count"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginEnd="19dp"-->
+        <!--android:textColor="@android:color/holo_green_dark" />-->
+
+</RelativeLayout>

@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">GitMobile</string>
+    <string name="connection_error">Нет сети :(</string>
+    <string name="try_again">Повторить</string>
+    <string name="toggle_open">Open</string>
+    <string name="toggle_closed">Closed</string>
+    <string name="skip">Пропустить</string>
+    <string name="sign_in">Войти</string>
+    <string name="repository">Repository</string>
+    <string name="code">Code</string>
+    <string name="issues">Issues</string>
+    <string name="commits">Commits</string>
+    <string name="users">Users</string>
+    <string name="stars">Stars</string>
+    <string name="forks">Forks</string>
+    <string name="updated">Updated</string>
+    <string name="search_hint">Search in Github</string>
+    <string name="file_name">Название файла</string>
+    <string name="extension">Расширение</string>
+    <string name="content">Content</string>
+    <string name="save">Сохранить</string>
+    <string name="description">Описание</string>
+    <string name="add_files">Добавить файлы</string>
+    <string name="content_type">Content Type</string>
+    <string name="sort">Sort</string>
+    <string name="order">Order</string>
+    <string name="my">My</string>
+    <string name="starred">Starred</string>
+    <string name="public_tab">Public</string>
+    <string name="done">Done</string>
+    <string name="home">Home</string>
+    <string name="gists">Gists</string>
+    <string name="repositories">Repositories</string>
+    <string name="my_repositories">My reposito</string>
+    <string name="applications">Applications</string>
+    <string name="organisations">Organisations</string>
+    <string name="settings">Settings</string>
+    <string name="filters">Фильтры</string>
+    <string name="search">Поиск</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="star">Star</string>
+    <string name="fork">Fork</string>
+    <string name="owner">Owner</string>
+    <string name="comments">Comments</string>
+    <string name="no_network">No Network :(</string>
+    <string name="update">Update</string>
+    <string name="no_description">No description</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="write_comment">Write a comment</string>
+    <string name="overview">Overview</string>
+    <string name="send">Send</string>
+    <string-array name="content_types">
+        <item>@string/repository</item>
+        <item>@string/code</item>
+        <item>@string/issues</item>
+        <item>@string/commits</item>
+        <item>@string/users</item>
+    </string-array>
+    <string-array name="sort">
+        <item>@string/stars</item>
+        <item>@string/forks</item>
+        <item>@string/updated</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>@string/russian</item>
+        <item>@string/english</item>
+    </string-array>
+
+    <string-array name="choose_files">
+        <item>Создать новый файл</item>
+        <item>Загрузить с устройства</item>
+    </string-array>
+
+    <string-array name="file_extensions">
+        <item>py</item>
+        <item>java</item>
+        <item>kt</item>
+        <item>js</item>
+        <item>xml</item>
+        <item>json</item>
+        <item>html</item>
+        <item>txt</item>
+        <item>tsv</item>
+        <item>asp</item>
+        <item>c</item>
+        <item>cpp</item>
+        <item>css</item>
+        <item>lua</item>
+        <item>m</item>
+        <item>php</item>
+        <item>tsv</item>
+        <item>asp</item>
+        <item>c</item>
+        <item>cpp</item>
+        <item>css</item>
+        <item>lua</item>
+        <item>swift</item>
+    </string-array>
+    <string name="nothing">Nothing :(</string>
+    <string name="watch">Watch</string>
+    <string name="readme">Readme</string>
+    <string name="files">Files</string>
+    <string name="opened">Opened</string>
+    <string name="closed">closed</string>
+    <string name="repo_closed_issue_tag">Closed</string>
+    <string name="repo_opened_issues_tab">Opened</string>
+
+    <string name="profile">Profile</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="language">Language</string>
+    <string name="pref_language">language_key</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
+
+</resources>

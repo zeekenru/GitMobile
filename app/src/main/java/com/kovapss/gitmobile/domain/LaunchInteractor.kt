@@ -1,28 +1,28 @@
 package com.kovapss.gitmobile.domain
 
-import com.kovapss.gitmobile.model.UserRepository
-import com.kovapss.gitmobile.system.PreferenceManager
+import com.kovapss.gitmobile.model.repositories.UserRepository
+import com.kovapss.gitmobile.model.system.PreferenceHelper
 import com.orhanobut.logger.Logger
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
 class LaunchInteractor {
 
-    @Inject lateinit var preferenceManager: PreferenceManager
+    @Inject lateinit var preferenceHelper: PreferenceHelper
 
     @Inject lateinit var repository: UserRepository
 
-    fun getUserCase(): Observable<String> {
-        if (preferenceManager.getAccessToken() == PreferenceManager.EMPTY_ACCESS_TOKEN) {
+    fun getUserCase(): Single<String> {
+        if (preferenceHelper.getAccessToken() == PreferenceHelper.EMPTY_ACCESS_TOKEN) {
             Logger.d("Token is empty")
         }
-        return repository.getCurrentUserFromNetwork(preferenceManager.getAccessToken())
+        return repository.getCurrentUserFromNetwork(preferenceHelper.getAccessToken())
                 .subscribeOn(Schedulers.io())
-                .doOnNext({
+                .doOnSuccess({
                     Logger.d("USER : $it")
                 })
-                .map { it.name }
+                .map { it.login}
     }
 }
