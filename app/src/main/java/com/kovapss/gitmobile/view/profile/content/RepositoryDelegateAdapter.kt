@@ -32,6 +32,8 @@ class RepositoryDelegateAdapter(private val listener: (Repository) -> Unit)
 
     }
 
+
+
     override fun getLayoutId(): Int = R.layout.repository_item
 
     override fun isForViewType(data: MutableList<*>, position: Int): Boolean

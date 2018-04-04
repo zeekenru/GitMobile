@@ -7,6 +7,7 @@ import com.kovapss.gitmobile.di.modules.NetworkModule
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
+import io.github.kbiakov.codeview.classifier.CodeProcessor
 import toothpick.Toothpick
 
 class App : Application() {
@@ -22,6 +23,7 @@ class App : Application() {
         val serverScope = Toothpick.openScope(Scopes.NETWORK_SCOPE)
         serverScope.installModules(NetworkModule())
         PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply()
+        CodeProcessor.init(this)
     }
 
 

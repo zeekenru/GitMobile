@@ -8,7 +8,7 @@
     <include
         android:id="@+id/file_viewer_toolbar"
         layout="@layout/default_toolbar"/>
-    <com.pddstudio.highlightjs.HighlightJsView
+    <io.github.kbiakov.codeview.CodeView
         android:id="@+id/repo_file_code_view"
         android:layout_below="@id/file_viewer_toolbar"
         android:layout_width="match_parent"

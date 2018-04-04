@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_follow"
+        android:title="@string/follow"
+        android:icon="@drawable/ic_follow"
+        app:showAsAction="always"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_block"
+        android:title="@string/block"
+        android:icon="@drawable/ic_block"
+        app:showAsAction="always"
+        android:visible="false"/>
+
+
+
+</menu>

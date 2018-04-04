@@ -22,16 +22,23 @@ class SearchInteractor {
     }
 
     fun getRepositories(query: String): Single<List<Repository>> =
-            repository.searchRepositories(query).subscribeOn(Schedulers.io())
+            repository.searchRepositories(query)
+                    .map { it.body() }
                     .map { it.results }
+                    .subscribeOn(Schedulers.io())
+
 
     fun getCommits(query: String): Single<List<Commit>> =
-            repository.searchCommits(query).subscribeOn(Schedulers.io())
+            repository.searchCommits(query)
+                    .map { it.body() }
                     .map { it.results }
+                    .subscribeOn(Schedulers.io())
 
     fun getIssues(query: String): Single<List<Issue>> = repository.searchIssues(query).subscribeOn(Schedulers.io())
+            .map { it.body() }
             .map { it.results }
 
-    fun getUsers(query: String) : Single<List<User>> = repository.searchUsers(query).subscribeOn(Schedulers.io())
+    fun getUsers(query: String): Single<List<User>> = repository.searchUsers(query).subscribeOn(Schedulers.io())
+            .map { it.body() }
             .map { it.results }
 }

@@ -8,5 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class RepositoryFile(@SerializedName("name") val name : String,
                           @SerializedName("path") val path : String,
                           @SerializedName("html_url") val htmlUrl : String,
+                          @SerializedName("sha") val sha : String,
                           @SerializedName("download_url") val url : String?,
+                          @SerializedName("content") val content : String?,
                           @SerializedName("type") val type : String) : Parcelable

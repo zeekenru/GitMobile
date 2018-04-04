@@ -9,8 +9,8 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.kovapss.gitmobile.Constants.OAUTH_REQUEST_CODE
-import com.kovapss.gitmobile.view.login.LoginActivity
 import com.kovapss.gitmobile.R
+import com.kovapss.gitmobile.view.login.LoginActivity
 import com.kovapss.gitmobile.view.main.MainActivity
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_launch.*

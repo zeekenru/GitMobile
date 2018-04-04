@@ -25,6 +25,8 @@ import com.kovapss.gitmobile.view.search.delegateAdapters.CommitsDelegateAdapter
 import com.kovapss.gitmobile.view.search.delegateAdapters.IssuesDelegateAdapter
 import com.kovapss.gitmobile.view.search.delegateAdapters.UsersDelegateAdapter
 import kotlinx.android.synthetic.main.activity_search.*
+import ru.alexbykov.nopaginate.paginate.Paginate
+import ru.alexbykov.nopaginate.paginate.PaginateBuilder
 
 
 class SearchActivity : MvpAppCompatActivity(), SearchView {
@@ -32,6 +34,8 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
     @InjectPresenter lateinit var presenter: SearchPresenter
 
     private lateinit var contentSpinner: Spinner
+
+    private lateinit var paginate: Paginate
 
     private val delegateAdapter = CompositeDelegateAdapter.Builder<DelegatesAdapterModel>()
             .add(RepositoryDelegateAdapter({presenter.repositoryClicked(it)}))
@@ -53,6 +57,15 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
             hasFixedSize()
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = delegateAdapter
+            paginate = PaginateBuilder()
+                    .with(search_recyclerview)
+                    .setOnLoadMoreListener { when(search_bottom_navview.selectedItemId){
+                        R.id.search_menu_repos -> {presenter.reposItemSelected()}
+                        R.id.search_menu_commits -> {presenter.commitsItemSelected()}
+                        R.id.search_menu_issues -> {presenter.issuesItemSelected()}
+                        R.id.search_menu_users -> {presenter.usersItemSelected()}
+                    } }
+                    .build()
         }
         search_bottom_navview.setOnNavigationItemSelectedListener {
             when (it.itemId){
@@ -140,3 +153,4 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
         }
     }
 }
+

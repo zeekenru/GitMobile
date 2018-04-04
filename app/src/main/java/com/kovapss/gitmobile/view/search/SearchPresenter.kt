@@ -24,6 +24,8 @@ class SearchPresenter : MvpPresenter<SearchView>() {
 
     private lateinit var query: String
 
+    private var pageNumber = 0
+
     private var cd = CompositeDisposable()
 
     init {
@@ -32,7 +34,7 @@ class SearchPresenter : MvpPresenter<SearchView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.showProgress()
+//        viewState.showProgress()
         reposItemSelected()
     }
 
@@ -114,7 +116,9 @@ class SearchPresenter : MvpPresenter<SearchView>() {
         cd.clear()
     }
 
+    fun loadMore() {
 
+    }
 
 
 }

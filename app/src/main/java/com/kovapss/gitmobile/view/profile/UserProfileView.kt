@@ -5,9 +5,12 @@ import com.kovapss.gitmobile.entities.User
 
 
 interface UserProfileView : MvpView {
-    fun setUserLogin(login : String)
-    fun showOverviewScreen(user : User)
-    fun showProfileContentScreen(dataType : Int, username: String)
+    fun setUserLogin(login: String)
+    fun showOverviewScreen(user: User)
+    fun showProfileContentScreen(dataType: Int, username: String)
     fun showProgress()
     fun hideProgress()
+    fun showActionsMenu()
+    fun setUserBlockedStatus(isBlocked: Boolean)
+    fun setUserFollowedStatus(isFollowed: Boolean)
 }

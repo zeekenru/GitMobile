@@ -4,10 +4,8 @@ import com.arellomobile.mvp.MvpView
 
 
 interface CreateGistView : MvpView {
-    fun showFileChooseDialog()
-    fun showGistVisibilityDialog()
-    fun showCreateFileDialog()
-    fun getFileFromSystem()
-    fun showFiles(files : List<GistFile>)
+    fun showCreateFileScreen()
+    fun addFile(file: GistFile)
+    fun deleteItem(position: Int)
 
 }

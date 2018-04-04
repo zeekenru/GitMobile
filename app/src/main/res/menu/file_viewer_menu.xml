@@ -4,9 +4,14 @@
     <item
         android:id="@+id/menu_viewer_open_in_browser"
         android:title="@string/open_in_browser"
-        android:icon="@drawable/ic_open_in_browser"
+        android:icon="@drawable/ic_open_in_browser_white"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/menu_viewer_edit"
+        android:title="@string/edit_file"
+        android:icon="@drawable/ic_mode_edit"
+        app:showAsAction="always"/>
 
 
 </menu>

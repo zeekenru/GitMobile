@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.kovapss.gitmobile.Scopes
 import com.kovapss.gitmobile.domain.RepositoryDetailInteractor
+import com.kovapss.gitmobile.entities.repository.CreateRepositoryFile
 import com.kovapss.gitmobile.entities.repository.RepositoryFile
 import com.orhanobut.logger.Logger
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,6 +23,10 @@ class RepositoryFilesPresenter(private val ownerLogin: String,
 
     private var branch = ""
 
+    private var currentPath = ""
+
+    private var branches = listOf<String>()
+
     private val cd = CompositeDisposable()
 
     override fun onFirstViewAttach() {
@@ -35,6 +40,7 @@ class RepositoryFilesPresenter(private val ownerLogin: String,
                     Logger.d("Branches: $namesList")
                     branch = namesList.first()
                     getFiles(branch)
+                    branches = namesList
                     viewState.setBranches(namesList)
                 }.subscribe())
     }
@@ -45,7 +51,7 @@ class RepositoryFilesPresenter(private val ownerLogin: String,
         getFiles(branch)
     }
 
-    private fun getFiles(branch: String, path : String = "") {
+    private fun getFiles(branch: String, path: String = "") {
         cd.add(interactor.getRepositoryFiles(ownerLogin, repoName, path, branch)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
@@ -61,14 +67,34 @@ class RepositoryFilesPresenter(private val ownerLogin: String,
         if (file.type == "dir") {
             viewState.showProgress()
             lastPath = file.path
-            getFiles(branch, file.name)
+            getFiles(branch, file.path)
         } else {
-            viewState.openFileViewer(file)
+            viewState.showProgress()
+            cd.add(interactor.getRepositoryFile(ownerLogin, repoName, file.path, branch)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map { it.body() }
+                    .doOnSuccess {
+                        viewState.openFileViewer(it)
+                        viewState.hideProgress()
+                    }
+                    .subscribe())
         }
     }
 
-    fun obBackPressed(){
+    fun obBackPressed() {
 
+    }
+
+
+    fun addFileBtnClicked() = viewState.openCreateFileScreen(branches)
+
+
+    fun fileDataReceived(fileData: CreateRepositoryFile) {
+        val data = CreateRepositoryFile(currentPath, fileData.message, fileData.content, fileData.branch)
+        cd.add(interactor.uploadFile(ownerLogin, repoName, data)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { Logger.d("Success added file") }
+                .subscribe())
     }
 
     override fun onDestroy() {

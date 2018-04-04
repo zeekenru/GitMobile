@@ -34,11 +34,10 @@
             app:srcCompat="@drawable/ic_more"/>
     </RelativeLayout>
 
-    <com.pddstudio.highlightjs.HighlightJsView
+    <io.github.kbiakov.codeview.CodeView
         android:id="@+id/gist_detail_codeview"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_below="@id/gist_detail_topbar"
-        />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gist_detail_topbar" />
 
 </RelativeLayout>

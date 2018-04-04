@@ -14,6 +14,7 @@
         android:background="@android:color/white"
         android:elevation="4dp"
         app:title=""
+        android:visibility="invisible"
         app:theme="@style/ToolbarColoredBackArrow"
         app:titleTextColor="@android:color/black" />
 
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/repo_detail_toolbar"
+        android:visibility="invisible"
         android:elevation="4dp">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/repo_detail_avatar"

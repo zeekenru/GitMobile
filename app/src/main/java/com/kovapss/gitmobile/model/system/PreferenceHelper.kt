@@ -9,7 +9,7 @@ import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
 
-class PreferenceHelper @Inject constructor(private val context: Context) {
+class PreferenceHelper @Inject constructor(context: Context) {
 
     companion object {
 //        private const val SP_NAME = "com.kovapps.gitmobile.sp"

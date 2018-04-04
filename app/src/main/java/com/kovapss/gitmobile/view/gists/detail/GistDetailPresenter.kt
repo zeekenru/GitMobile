@@ -6,6 +6,7 @@ import com.kovapss.gitmobile.Scopes
 import com.kovapss.gitmobile.domain.GistDetailInteractor
 import com.kovapss.gitmobile.entities.Gist
 import com.kovapss.gitmobile.exceptions.NotAuthenticatedUserException
+import com.kovapss.gitmobile.model.system.PreferenceHelper
 import com.orhanobut.logger.Logger
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,9 +20,16 @@ class GistDetailPresenter(private val gist: Gist) : MvpPresenter<GistDetailView>
     @Inject
     lateinit var interactor: GistDetailInteractor
 
+    @Inject
+    lateinit var preferenceHelper: PreferenceHelper
+
     private val cd: CompositeDisposable = CompositeDisposable()
 
     private var isStarred = false
+
+    init {
+        Toothpick.inject(this, Toothpick.openScopes(Scopes.APP_SCOPE, Scopes.NETWORK_SCOPE))
+    }
 
 
     override fun onFirstViewAttach() {
@@ -50,36 +58,37 @@ class GistDetailPresenter(private val gist: Gist) : MvpPresenter<GistDetailView>
                         viewState.setGistStarredStatus(isStarred)
                     }
                     .subscribe())
-        } catch (exception : NotAuthenticatedUserException){
-            
+        } catch (exception: NotAuthenticatedUserException) {
+
         }
 
         viewState.hideProgress()
         Logger.d(gist)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cd.clear()
-    }
-
-    init {
-        Toothpick.inject(this, Toothpick.openScopes(Scopes.APP_SCOPE, Scopes.NETWORK_SCOPE))
-    }
-
 
     fun clickOnStar() {
         if (!isStarred) {
             try {
-                interactor.starGist(gist.githubId)
+                cd.add(interactor.starGist(gist.githubId)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnComplete {
+                            isStarred = true
+                            viewState.setStarredStatus(true)
+                        }
+                        .subscribe())
             } catch (exception: NotAuthenticatedUserException) {
                 viewState.showLoginDialog()
             }
+        } else {
+            cd.add(interactor.unstarGist(gist.githubId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete {
+                        isStarred = false
+                        viewState.setStarredStatus(false)
+                    }
+                    .subscribe())
         }
-    }
-
-    fun clickOnFork() {
-
     }
 
     fun clickOnOpenInBrowser() {
@@ -104,6 +113,29 @@ class GistDetailPresenter(private val gist: Gist) : MvpPresenter<GistDetailView>
 
     fun clickOnLogin() {
 
+    }
+
+    fun clickOnDelete() {
+        viewState.showDeleteDialog()
+    }
+
+    fun optionsMenuPrepared() {
+        if (preferenceHelper.getAuthStatus()) {
+            viewState.showEditMenu()
+
+        }
+    }
+
+    fun deleteConfirmed() {
+        cd.add(interactor.deleteGist(gist.githubId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { viewState.returnBack() }
+                .subscribe())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cd.clear()
     }
 
 

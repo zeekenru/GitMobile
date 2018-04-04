@@ -2,13 +2,15 @@ package com.kovapss.gitmobile.model.repositories
 
 import com.kovapss.gitmobile.Scopes.APP_SCOPE
 import com.kovapss.gitmobile.Scopes.NETWORK_SCOPE
-import com.kovapss.gitmobile.entities.Gist
 import com.kovapss.gitmobile.entities.Comment
+import com.kovapss.gitmobile.entities.CreateGistData
+import com.kovapss.gitmobile.entities.Gist
 import com.kovapss.gitmobile.exceptions.NotAuthenticatedUserException
 import com.kovapss.gitmobile.model.api.GistsService
 import com.kovapss.gitmobile.model.system.PreferenceHelper
 import io.reactivex.Single
-import okhttp3.Response
+import okhttp3.ResponseBody
+import retrofit2.Response
 import toothpick.Toothpick
 import javax.inject.Inject
 
@@ -26,31 +28,31 @@ class GistsRepository {
     }
 
 
-    fun getUserGists(userName: String): Single<List<Gist>> = apiService.getUserGists(userName)
+    fun getUserGists(userName: String, page : Int): Single<Response<List<Gist>>> = apiService.getUserGists(userName, page)
 
 
-    fun getPublicGists(): Single<List<Gist>> = apiService.getPublicGists()
+    fun getPublicGists(page: Int): Single<Response<List<Gist>>> = apiService.getPublicGists(page)
 
 
-    fun getStarredGists(accessToken : String): Single<List<Gist>> {
+    fun getStarredGists(page: Int): Single<Response<List<Gist>>> {
         if (!preferenceHelper.getAuthStatus()) {
             throw NotAuthenticatedUserException()
         }
-        return apiService.getStarredGists(accessToken)
+        return apiService.getStarredGists(page)
     }
 
-    fun checkGistIsStarred(id: String, accessToken : String): Single<Response>  {
+    fun checkGistIsStarred(id: String): Single<Response<ResponseBody>>  {
         if (!preferenceHelper.getAuthStatus()) {
             throw NotAuthenticatedUserException()
         }
-        return apiService.checkGistStar(id, accessToken)
+        return apiService.checkGistStar(id)
     }
 
     fun getGist(id: String) = apiService.getGist(id)
 
 
-    fun createGist(files: Any, description: String, public: Boolean)
-            = apiService.createGist(files, description, public = true)
+    fun createGist(data : CreateGistData) : Single<Response<Gist>>
+            = apiService.createGist(data)
 
 
     fun changeGist(id: String,
@@ -64,12 +66,12 @@ class GistsRepository {
 
     fun getGistCommit(id: String) = apiService.getGistCommit(id)
 
-    fun getGistComments(id: String): Single<List<Comment>> = apiService.getGistComments(id)
+    fun getGistComments(id: String): Single<Response<List<Comment>>> = apiService.getGistComments(id)
 
     fun createComment(id: String, commentBody: String) = apiService.createCommit(id, commentBody)
 
 
-    fun starGist(id: String, accessToken: String) = apiService.starGist(id, accessToken)
+    fun starGist(id: String) = apiService.starGist(id)
 
 
     fun unstarGist(id: String) = apiService.unstarGist(id)

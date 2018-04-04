@@ -24,37 +24,30 @@ class UserRepository {
         return apiService.getUser(name)
     }
 
-    fun getCurrentUserFromNetwork(accessToken: String): Single<User> {
-        return apiService.getAuthenticatedUser(accessToken)
+    fun getCurrentUserFromNetwork(): Single<User> {
+        return apiService.getAuthenticatedUser()
     }
 
-    fun getUserRepositories(userName : String) : Single<List<Repository>>
-            = apiService.getUserRepositories(userName)
-
-    fun getAuthenticatedUserRepositories() : Single<List<Repository>>
-            = apiService.getAuthenticatedUserRepositories()
+    fun getUserRepositories(userName: String): Single<List<Repository>> = apiService.getUserRepositories(userName)
 
 
-    fun getUserStarred(username: String) : Single<List<Repository>>
-            = apiService.getUserStarred(username)
-
-    fun getAuthenticatedUserStarred() : Single<List<Repository>>
-            = apiService.getAuthenticatedUserStarred()
-
-    fun getUserGists( username: String) :
-            Single<List<Gist>>  = apiService.getUserGists(username)
-
-    fun getAuthenticatedUserGists() : Single<List<Gist>>  = apiService.getAuthenticatedUserGists()
+    fun getUserStarred(username: String): Single<List<Repository>> = apiService.getUserStarred(username)
 
 
-    fun getCurrentUserFromDb(): Single<UserDb> = db.userDao().getUser().subscribeOn(Schedulers.io())
+    fun getUserGists(username: String):
+            Single<List<Gist>> = apiService.getUserGists(username)
 
-    private fun saveUserToDb(user: User) {
-        with(user){
-            val userDb = UserDb(0, id,  avatarUrl, name, login, location,
-                    email, bio, followers, following)
-            db.userDao().insertUser(userDb)
-        }
-    }
+
+    fun checkUserIsBlocked(username: String) = apiService.checkUserIsBlocked(username)
+
+    fun blockUser(username: String) = apiService.blockUser(username)
+
+    fun unblockUser(username: String) = apiService.unblockUser(username)
+
+    fun checkUserIsFollowed(username: String) = apiService.checkUserIsFollowed(username)
+
+    fun followUser(username: String) = apiService.followUser(username)
+
+    fun unfollowUser(username: String) = apiService.unfollowUser(username)
 
 }

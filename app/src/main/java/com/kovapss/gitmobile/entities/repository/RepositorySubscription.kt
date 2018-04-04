@@ -1,4 +1,4 @@
-package com.kovapss.gitmobile.entities
+package com.kovapss.gitmobile.entities.repository
 
 import com.google.gson.annotations.SerializedName
 

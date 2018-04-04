@@ -1,9 +1,13 @@
 package com.kovapss.gitmobile.view.repositories.detail
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -18,12 +22,15 @@ import com.kovapss.gitmobile.entities.repository.Readme
 import com.kovapss.gitmobile.entities.repository.Repository
 import com.kovapss.gitmobile.entities.repository.RepositoryStatus
 import com.kovapss.gitmobile.view.profile.UserProfileActivity
+import com.kovapss.gitmobile.view.repositories.detail.collaborators.CollaboratorsActivity
 import com.kovapss.gitmobile.view.repositories.detail.content.RepositoryDetailContentFragment
 import com.kovapss.gitmobile.view.repositories.detail.files.RepositoryFilesFragment
 import com.kovapss.gitmobile.view.repositories.detail.issues.RepositoryIssuesFragment
 import com.kovapss.gitmobile.view.repositories.detail.readme.RepositoryReadmeFragment
+import com.orhanobut.logger.Logger
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_repository_detail.*
+import kotlinx.android.synthetic.main.activity_repository_detail_beta.*
 import java.text.ParsePosition
 
 class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
@@ -38,6 +45,10 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
     private lateinit var starMenuItem: MenuItem
 
     private lateinit var watchMenuItem: MenuItem
+
+    private lateinit var deleteMenuItem: MenuItem
+
+    private lateinit var collaboratorsMenItem : MenuItem
 
     @ProvidePresenter
     fun providePresenter() = RepositoryDetailPresenter(intent.getParcelableExtra(REPOSITORY_KEY))
@@ -62,10 +73,11 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
+
         repo_detail_avatar.setOnClickListener { presenter.clickOwnerAvatar() }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.repository_detail_toolbar_menu, menu)
         return true
     }
@@ -74,6 +86,8 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
         when (item.itemId) {
             R.id.menu_repo_starring -> presenter.clickStar()
             R.id.menu_repo_watching -> presenter.clickWatch()
+            R.id.menu_repo_delete -> presenter.clickDelete()
+            R.id.menu_repo_collaborators -> presenter.clickCollaborators()
             android.R.id.home -> onBackPressed()
         }
 
@@ -83,7 +97,10 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         starMenuItem = menu.findItem(R.id.menu_repo_starring)
         watchMenuItem = menu.findItem(R.id.menu_repo_watching)
-        return true
+        deleteMenuItem = menu.findItem(R.id.menu_repo_delete)
+        collaboratorsMenItem = menu.findItem(R.id.menu_repo_collaborators)
+        presenter.optionsMenuPrepared()
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun setRepositoryData(repository: Repository) {
@@ -109,8 +126,29 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
 
 
         }
-
+        repo_detail_toolbar.visibility = View.VISIBLE
+        repo_detail_info_layout.visibility = View.VISIBLE
     }
+
+    override fun showDeleteDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.delete_repo_title))
+                .setMessage(getString(R.string.delete_repo_message))
+                .setPositiveButton(getString(R.string.delete)) { dialog, _ ->
+                    presenter.deleteConfirmed()
+                    dialog.cancel()
+                }
+                .setNegativeButton(getString(R.string.cancel), { dialog, _ ->
+                    dialog.cancel()
+                })
+                .create().show()
+    }
+
+    override fun showEditModeMenu() {
+        deleteMenuItem.isVisible = true
+        collaboratorsMenItem.isVisible = true
+    }
+
 
     override fun setRepositoryStatus(repositoryStatus: RepositoryStatus) {
 
@@ -123,13 +161,13 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
                 starMenuItem.icon = getDrawable(R.drawable.ic_star_border)
             }
         }
-        if (repositoryStatus.watched){
+        if (repositoryStatus.watched) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                starMenuItem.icon = getDrawable(R.drawable.ic_watch_primary)
+                watchMenuItem.icon = getDrawable(R.drawable.ic_watch_primary)
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                starMenuItem.icon = getDrawable(R.drawable.ic_watch)
+                watchMenuItem.icon = getDrawable(R.drawable.ic_watch)
             }
         }
 
@@ -155,11 +193,22 @@ class RepositoryDetailActivity : MvpAppCompatActivity(), RepositoryDetailView {
         showFragment(RepositoryFilesFragment.getInstance(login, repositoryName))
     }
 
+    override fun openCollaboratorsScreen(login: String, repositoryName: String) {
+        val intent = Intent(this, CollaboratorsActivity::class.java)
+                .putExtra(CollaboratorsActivity.LOGIN_KEY, login)
+                .putExtra(CollaboratorsActivity.REPOSITORY_NAME_KEY, repositoryName)
+        startActivity(intent)
+    }
+
     override fun openUserScreen(username: String) {
         val intent = Intent(this, UserProfileActivity::class.java).apply {
             putExtra(UserProfileActivity.USERNAME_KEY, username)
         }
         startActivity(intent)
+    }
+
+    override fun returnBack() {
+        onBackPressed()
     }
 
     override fun showProgress() {

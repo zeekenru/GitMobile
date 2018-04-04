@@ -2,16 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_repo_delete"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete_repository"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_repo_collaborators"
+        android:icon="@drawable/ic_people"
+        android:title="@string/repository_collaborators"
+        android:visible="false"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/menu_repo_starring"
-        android:title="@string/star"
         android:icon="@drawable/ic_star_border"
-        app:showAsAction="always"/>
+        android:title="@string/star"
+        app:showAsAction="always" />
     <item
         android:id="@+id/menu_repo_watching"
-        android:title="@string/watch"
         android:icon="@drawable/ic_watch"
-        app:showAsAction="always"/>
-
+        android:title="@string/watch"
+        app:showAsAction="always" />
 
 
 

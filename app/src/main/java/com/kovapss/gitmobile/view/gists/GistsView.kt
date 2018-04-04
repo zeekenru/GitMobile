@@ -20,10 +20,14 @@ interface GistsView : MvpView {
 
     fun showGists(gists : List<Gist>)
 
+    fun addGists(gists: List<Gist>)
+
     fun openGistCreateView()
 
     fun openDetailGist(gist: Gist)
 
     fun openLoginDialogScreen()
+
+    fun setFabVisible(isVisible: Boolean)
 
 }

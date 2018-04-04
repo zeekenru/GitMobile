@@ -3,7 +3,6 @@ package com.kovapss.gitmobile.view.login
 import android.net.Uri
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.kovapss.gitmobile.model.repositories.AuthRepository
 import com.kovapss.gitmobile.Constants.CLIENT_ID
 import com.kovapss.gitmobile.Scopes.APP_SCOPE
 import com.kovapss.gitmobile.Scopes.NETWORK_SCOPE
@@ -17,10 +16,9 @@ import javax.inject.Inject
 @InjectViewState
 class LoginPresenter : MvpPresenter<LoginView>() {
 
-    @Inject lateinit var repository: AuthRepository
 
-    @Inject lateinit var interactor: LoginInteractor
-
+    @Inject
+    lateinit var interactor: LoginInteractor
 
     private val cd: CompositeDisposable = CompositeDisposable()
 
@@ -39,34 +37,32 @@ class LoginPresenter : MvpPresenter<LoginView>() {
     }
 
 
-    fun shouldOverrideUrlLoading(url: String?): Boolean {
-        if (url != null) {
-            when (true) {
+    fun shouldOverrideUrlLoading(url: String): Boolean {
+        when (true) {
 
-                url.contains(CLIENT_ID) -> {
-                    viewState.loadUrl(url)
-                    return true
-                }
-
-                url.contains("code", true) -> {
-                    viewState.showProgress()
-                    val uri = Uri.parse(url)
-                    val code = uri.getQueryParameter("code")
-                    Logger.d("Code : $code")
-                    cd.add(interactor.authUserCase(code)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .doOnError(Logger::d)
-                            .doOnComplete { viewState.setOkResult() }
-                            .subscribe()
-                    )
-                    return true
-                }
-
+            url.contains(CLIENT_ID) -> {
+                viewState.loadUrl(url)
+                return true
             }
 
-            return true
+            url.contains("code", true) -> {
+                viewState.showProgress()
+                viewState.hideKeyboard()
+                val uri = Uri.parse(url)
+                val code = uri.getQueryParameter("code")
+                Logger.d("Code : $code")
+                cd.add(interactor.authUserCase(code)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnError(Logger::d)
+                        .doOnSubscribe { viewState.showProgress() }
+                        .doOnComplete { viewState.setOkResult() }
+                        .subscribe()
+                )
+                return true
+            }
         }
-        return false
+        return true
+
     }
 
 

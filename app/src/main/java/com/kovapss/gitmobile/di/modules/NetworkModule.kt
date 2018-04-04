@@ -9,6 +9,7 @@ import com.kovapss.gitmobile.model.system.NetworkHelper
 import com.kovapss.gitmobile.model.system.NetworkHelperImpl
 import com.orhanobut.logger.Logger
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import toothpick.config.Module
 
 
@@ -16,32 +17,33 @@ class NetworkModule : Module() {
     init {
         Logger.d("Network module init")
 
-        bind(OkHttpClient::class.java).toProvider(HttpClientProvider::class.java)
-
         bind(AuthService::class.java)
                 .toProviderInstance(AuthServiceProvider(HttpClientProvider().get()))
                 .providesSingletonInScope()
 
         bind(UserService::class.java)
-                .toProviderInstance(UserServiceProvider(HttpClientProvider().get()))
-                .providesSingletonInScope()
+                .toInstance(RestServiceProvider().get().create(UserService::class.java))
 
         bind(GistsService::class.java)
-                .toProviderInstance(GistsServiceProvider(HttpClientProvider().get()))
+                .toInstance(RestServiceProvider().get().create(GistsService::class.java))
 
         bind(RepositoriesService::class.java)
-                .toProviderInstance(ReposServiceProvider((HttpClientProvider().get())))
-                .providesSingletonInScope()
+                .toInstance(RestServiceProvider().get().create(RepositoriesService::class.java))
+
         bind(SearchService::class.java)
-                .toProviderInstance(SearchServiceProvider((HttpClientProvider().get())))
+                .toInstance(RestServiceProvider().get().create(SearchService::class.java))
 
+        bind(NotificationService::class.java)
+                .toInstance(RestServiceProvider().get().create(NotificationService::class.java))
 
-        bind(AuthData::class.java).toInstance(AuthData(url = "https://github.com/login/oauth/authorize?",
-                scopes = "scope=user,public_repo,repo&", clientId = "client_id=Iv1.3de123a4a157048d"))
+        bind(AuthData::class.java).toInstance(AuthData("https://github.com/login/oauth/authorize",
+                "user,repo,notifications,gist", "7afe70c76de1a654c60e"))
 
         bind(NetworkHelper::class.java).to(NetworkHelperImpl::class.java)
 
         bind(LoginInteractor::class.java)
+
+        bind(MainInteractor::class.java)
 
         bind(LaunchInteractor::class.java)
 
@@ -66,6 +68,10 @@ class NetworkModule : Module() {
         bind(ReposRepository::class.java)
 
         bind(SearchRepository::class.java)
+
+        bind(NotificationsInteractor::class.java)
+
+        bind(NotificationsRepository::class.java)
 
     }
 }

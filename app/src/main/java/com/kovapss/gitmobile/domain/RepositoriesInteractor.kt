@@ -18,6 +18,7 @@ class RepositoriesInteractor {
     }
 
     fun getPublicRepositories() : Single<List<Repository>> = repository.getPublicRepositories()
+            .map { it.body() }
             .subscribeOn(Schedulers.io())
 
 

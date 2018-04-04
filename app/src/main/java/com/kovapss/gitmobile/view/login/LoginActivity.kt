@@ -2,15 +2,14 @@ package com.kovapss.gitmobile.view.login
 
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import android.webkit.CookieManager
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.view.inputmethod.InputMethodManager
+import android.webkit.*
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.kovapss.gitmobile.R
@@ -21,6 +20,10 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : MvpAppCompatActivity(), LoginView {
 
     @InjectPresenter lateinit var presenter: LoginPresenter
+
+    companion object {
+        const val GIST_AUTH_CODE = 9
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,13 +72,14 @@ class LoginActivity : MvpAppCompatActivity(), LoginView {
 
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 override fun shouldOverrideUrlLoading(view: WebView?,
-                                                      request: WebResourceRequest?): Boolean {
-                    return presenter.shouldOverrideUrlLoading(request?.url.toString())
+                                                      request: WebResourceRequest): Boolean {
+                    return presenter.shouldOverrideUrlLoading(request.url.toString())
                 }
 
-                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
                     return presenter.shouldOverrideUrlLoading(url)
                 }
+
             }
             with(settings) {
                 javaScriptEnabled = true
@@ -86,6 +90,10 @@ class LoginActivity : MvpAppCompatActivity(), LoginView {
 
     }
 
+    override fun hideKeyboard() {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(login_activity_root.windowToken, 0)
+    }
 
 }
 

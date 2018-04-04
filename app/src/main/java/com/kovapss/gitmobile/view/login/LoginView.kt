@@ -12,4 +12,6 @@ interface LoginView : MvpView {
 
     fun setOkResult()
 
+    fun hideKeyboard()
+
 }

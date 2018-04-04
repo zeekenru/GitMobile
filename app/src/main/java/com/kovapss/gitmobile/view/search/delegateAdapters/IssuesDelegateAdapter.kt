@@ -26,6 +26,8 @@ class IssuesDelegateAdapter(private val listener : (Issue) -> Unit) : DelegateAd
         setOnClickListener { listener(item) }
     }
 
+
+
     override fun getLayoutId(): Int = R.layout.issue_item
 
     override fun isForViewType(data: MutableList<*>, position: Int): Boolean = data[position] is Issue

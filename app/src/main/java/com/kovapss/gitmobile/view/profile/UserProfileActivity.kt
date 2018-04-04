@@ -1,10 +1,12 @@
 package com.kovapss.gitmobile.view.profile
 
 
+import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -28,6 +30,10 @@ class UserProfileActivity : MvpAppCompatActivity(), UserProfileView {
     @ProvidePresenter
     fun providePresenter() : ProfilePresenter =
             ProfilePresenter(intent.getStringExtra(USERNAME_KEY))
+
+    private lateinit var followMenuItem: MenuItem
+
+    private lateinit var blockMenuItem : MenuItem
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +59,27 @@ class UserProfileActivity : MvpAppCompatActivity(), UserProfileView {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.user_profile_menu, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        followMenuItem = menu.findItem(R.id.menu_follow)
+        blockMenuItem = menu.findItem(R.id.menu_block)
+        presenter.optionsMenuPrepared()
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            android.R.id.home -> onBackPressed()
+            R.id.menu_block -> presenter.blockClicked()
+            R.id.menu_follow -> presenter.followClicked()
+        }
+        return true
+    }
+
     override fun setUserLogin(login: String) {
         with(checkNotNull(supportActionBar)){ title = login }
     }
@@ -71,6 +98,35 @@ class UserProfileActivity : MvpAppCompatActivity(), UserProfileView {
             putString(UserProfileContentFragment.USERNAME_KEY, username )
         }
         showFragment(UserProfileContentFragment.getInstance(bundle))
+    }
+
+    override fun setUserFollowedStatus(isFollowed: Boolean) {
+        if (isFollowed) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                followMenuItem.icon = getDrawable(R.drawable.ic_followed_user)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                followMenuItem.icon = getDrawable(R.drawable.ic_follow)
+            }
+        }
+    }
+
+    override fun setUserBlockedStatus(isBlocked: Boolean) {
+        if (isBlocked) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+               blockMenuItem.icon = getDrawable(R.drawable.ic_watch_primary)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+               blockMenuItem.icon = getDrawable(R.drawable.ic_block)
+            }
+        }
+    }
+
+    override fun showActionsMenu() {
+        followMenuItem.isVisible = true
+        blockMenuItem.isVisible = true
     }
 
     override fun showProgress() {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/collaborators_root_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.repositories.detail.collaborators.CollaboratorsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/collaborators_toolbar"
+            layout="@layout/default_toolbar" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/collaborators_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/collaborators_toolbar" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/collaborators_empty_error_view"
+        layout="@layout/empty_result_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:visibility="invisible"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/collaborators_fab"
+        style="@style/FAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        app:fab_size="normal"
+        app:srcCompat="@drawable/ic_add" />
+
+
+</android.support.design.widget.CoordinatorLayout>

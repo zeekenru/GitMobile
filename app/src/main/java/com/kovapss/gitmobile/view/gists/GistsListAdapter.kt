@@ -11,10 +11,15 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.gist_item.view.*
 
 
-class GistsListAdapter(private val data: List<Gist>,
+class GistsListAdapter(private val data: MutableList<Gist>,
                        private val listener: (Gist) -> Unit)
     : RecyclerView.Adapter<GistsListAdapter.ViewHolder>() {
 
+    fun addItems(items : List<Gist>) {
+        val startPos = data.size + 1
+        data.addAll(items)
+        notifyItemRangeInserted(startPos, items.size)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.gist_item, parent, false)
@@ -28,11 +33,9 @@ class GistsListAdapter(private val data: List<Gist>,
 
     class ViewHolder(itemView: View, private val listener: (Gist) -> Unit) : RecyclerView.ViewHolder(itemView) {
         fun bind(gist: Gist) {
-            Logger.d(gist.toString())
             with(gist) {
                 if (owner !== null) {
                     if (owner.avatarUrl != null) {
-                        Logger.d("avatar url isn't NULL : ${owner.avatarUrl}")
                         Picasso.with(itemView.gist_user_avatar.context)
                                 .load(owner.avatarUrl)
                                 .noFade()
@@ -41,7 +44,6 @@ class GistsListAdapter(private val data: List<Gist>,
                     }
                     itemView.description_text.text = "${owner.login}/${files.keys.first()}"
                 } else {
-                    Logger.d("OWNER IS NULL")
                     Picasso.with(itemView.gist_user_avatar.context).load(R.drawable.default_avatar)
                             .noFade()
                             .into(itemView.gist_user_avatar)

@@ -8,12 +8,24 @@ import com.kovapss.gitmobile.R
 import kotlinx.android.synthetic.main.gist_file_item.view.*
 
 
-class GistFilesListAdapter(private val data: List<GistFile>, private val onClickListener: (GistFile) -> Unit,
-                           private val onDeleteClickListener: (GistFile) -> Unit)
+class GistFilesListAdapter(private val onClickListener: (GistFile) -> Unit,
+                           private val onDeleteClickListener: (Int) -> Unit)
     : RecyclerView.Adapter<GistFilesListAdapter.ViewHolder>() {
 
-    override fun getItemCount(): Int = data.size
 
+    val data = ArrayList<GistFile>()
+
+    fun addItem(item: GistFile) {
+        data.add(item)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int){
+        data.removeAt(position)
+        notifyItemChanged(position)
+    }
+
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position])
@@ -26,12 +38,13 @@ class GistFilesListAdapter(private val data: List<GistFile>, private val onClick
 
     class ViewHolder(itemView: View,
                      private val onClickListener: (GistFile) -> Unit,
-                     private val onDeleteClickListener: (GistFile) -> Unit)
+                     private val onDeleteClickListener: (Int) -> Unit)
         : RecyclerView.ViewHolder(itemView) {
         fun bind(file: GistFile) {
             itemView.gist_file_description.text = file.filename
             itemView.setOnClickListener { onClickListener(file) }
-            itemView.delete_image_btn.setOnClickListener({onDeleteClickListener(file)})
+            itemView.delete_image_btn.setOnClickListener({onDeleteClickListener(adapterPosition)})
         }
+
     }
 }

@@ -1,30 +1,31 @@
 package com.kovapss.gitmobile.model.api
 
-import com.kovapss.gitmobile.entities.Gist
 import com.kovapss.gitmobile.entities.Comment
+import com.kovapss.gitmobile.entities.CreateGistData
+import com.kovapss.gitmobile.entities.Gist
 import io.reactivex.Single
-import okhttp3.Response
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.*
 
 
 interface GistsService {
 
     @GET("users/{username}/gists")
-    fun getUserGists(@Path("username") userName: String): Single<List<Gist>>
+    fun getUserGists(@Path("username") userName: String, @Query("page") page : Int): Single<Response<List<Gist>>>
 
     @GET("gists/public")
-    fun getPublicGists(): Single<List<Gist>>
+    fun getPublicGists(@Query("page") page : Int): Single<Response<List<Gist>>>
 
     @GET("gists/starred")
-    fun getStarredGists(@Query("access_token") accessToken : String): Single<List<Gist>>
+    fun getStarredGists(@Query("page") page : Int): Single<Response<List<Gist>>>
 
     @GET("gists/{id}")
-    fun getGist(@Path("id") id: String)
+    fun getGist(@Path("id") id: String) : Single<Response<Gist>>
 
     @POST("gists")
-    fun createGist(@Query("files") files: Any,
-                   @Query("description") description: String,
-                   @Query("public") public: Boolean)
+    @Headers("Accept: application/json")
+    fun createGist(@Body gist : CreateGistData) : Single<Response<Gist>>
 
     @PATCH("gists/{id}")
     fun changeGist(@Path("id") id: String,
@@ -38,25 +39,25 @@ interface GistsService {
     fun getGistCommit(@Path("id") id: String)
 
     @GET("gists/{id}/comments")
-    fun getGistComments(@Path("id") id: String) : Single<List<Comment>>
+    fun getGistComments(@Path("id") id: String) : Single<retrofit2.Response<List<Comment>>>
 
     @POST("gists/{id}/comments")
+    @Headers("Accept: application/vnd.github.VERSION.raw+json")
     fun createCommit(@Path("id") id : String,
                      @Query("body") commentBody : String)
 
     @GET("gists/{id}/star")
-    fun checkGistStar(@Path("id") id : String,
-                      @Query("access_token") accessToken : String) : Single<Response>
+    fun checkGistStar(@Path("id") id : String) : Single<Response<ResponseBody>>
 
     @Headers("Content-Length: 0")
     @PUT("gists/{id}/star")
-    fun starGist(@Path("id")  id: String,  @Query("access_token") accessToken : String)
+    fun starGist(@Path("id")  id: String) : Single<Response<ResponseBody>>
 
     @DELETE("gists/{id}/star")
-    fun unstarGist(@Path("id") id: String)
+    fun unstarGist(@Path("id") id: String) : Single<Response<ResponseBody>>
 
     @DELETE("gists/{id}")
-    fun deleteGist(@Path("id") id: String)
+    fun deleteGist(@Path("id") id: String) : Single<Response<ResponseBody>>
 
 
 }

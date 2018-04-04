@@ -12,4 +12,5 @@ interface RepositoryFilesView : MvpView {
     fun showNetworkError()
     fun hideNetworkError()
     fun openFileViewer(file: RepositoryFile)
+    fun openCreateFileScreen(branches: List<String>)
 }

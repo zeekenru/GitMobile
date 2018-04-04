@@ -1,6 +1,5 @@
 package com.kovapss.gitmobile.view.search.delegateAdapters
 
-import android.graphics.Color
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.google.gson.internal.bind.util.ISO8601Utils
 import com.kovapss.gitmobile.R

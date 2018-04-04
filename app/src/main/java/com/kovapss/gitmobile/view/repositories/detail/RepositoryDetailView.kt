@@ -18,4 +18,8 @@ interface RepositoryDetailView : MvpView {
     fun showRepositoryTopics(topics: List<String>)
     fun showFilesScreen(login: String, repositoryName : String)
     fun openUserScreen(username : String)
+    fun showEditModeMenu()
+    fun returnBack()
+    fun showDeleteDialog()
+    fun openCollaboratorsScreen(login: String, repositoryName : String)
 }

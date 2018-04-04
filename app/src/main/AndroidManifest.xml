@@ -13,7 +13,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.launch.LaunchActivity">
+        <activity
+            android:name=".view.launch.LaunchActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +54,11 @@
         <activity android:name=".view.gists.detail.GistDetailActivity" />
         <activity android:name=".view.repositories.detail.files.viewer.FileViewerActivity" />
         <activity android:name=".view.repositories.detail.issues.detail.IssueDetailActivity" />
-        <activity android:name=".view.settings.SettingsActivity"></activity>
+        <activity android:name=".view.settings.SettingsActivity" />
+        <activity android:name=".view.repositories.create.CreateRepositoryActivity" />
+        <activity android:name=".view.repositories.detail.files.createfile.CreateFileActivity" />
+        <activity android:name=".view.repositories.detail.files.edit.FileEditActivity" />
+        <activity android:name=".view.repositories.detail.collaborators.CollaboratorsActivity"></activity>
     </application>
 
 </manifest>

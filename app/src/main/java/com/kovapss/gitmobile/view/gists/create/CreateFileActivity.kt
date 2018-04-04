@@ -1,5 +1,6 @@
 package com.kovapss.gitmobile.view.gists.create
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.orhanobut.logger.Logger
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import kotlinx.android.synthetic.main.activity_create_file.*
 
 class CreateFileActivity : AppCompatActivity(), View.OnFocusChangeListener {
@@ -39,25 +41,24 @@ class CreateFileActivity : AppCompatActivity(), View.OnFocusChangeListener {
                 .skipInitialValue()
                 .map { it.isNotEmpty() }
 
-        cd.add(Observable.combineLatest(filenameObservable, contentObservable,
-                BiFunction<Boolean, Boolean, Boolean> { t1, t2 -> t1 || t2 })
-                .subscribe({
-                    gist_save_file_btn.isEnabled = it
-                }))
+        val extensionObservable = RxTextView.textChangeEvents(file_extensions_textview)
+                .skipInitialValue()
+                .map { it.text().isNotEmpty()}
+        cd.add(Observable.combineLatest(filenameObservable, contentObservable, extensionObservable,
+                Function3<Boolean, Boolean, Boolean, Boolean> {t1, t2, t3 ->  t1 && t2 && t3})
+                .subscribe({gist_save_file_btn.isEnabled = true}))
 
         gist_save_file_btn.setOnClickListener {
             val filename = "${gist_filename_edit_text.text}.${file_extensions_textview.text}"
             val gistFile = GistFile(filename, file_content_edit_text.text.toString())
-            val intent = Intent()
-            intent.putExtra(FILE_DATA_INTENT_KEY, gistFile)
-            setResult(CREATE_FILE_REQUEST_CODE, intent)
+            val intent = Intent().apply { putExtra(FILE_DATA_INTENT_KEY, gistFile)}
+            setResult(Activity.RESULT_OK, intent)
             finish()
         }
 
     }
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {
-        Logger.d("OnFocusChange")
         if (v != gist_filename_edit_text && gist_filename_edit_text.text.isEmpty()) {
             filename_textinput_layout.error = "Необходимо назвать файл"
             gist_save_file_btn.isEnabled = false
@@ -66,5 +67,10 @@ class CreateFileActivity : AppCompatActivity(), View.OnFocusChangeListener {
             filename_textinput_layout.error = "Содержимое не должно быть пустым"
             gist_save_file_btn.isEnabled = false
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cd.clear()
     }
 }

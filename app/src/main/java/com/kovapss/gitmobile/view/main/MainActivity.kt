@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,15 +18,22 @@ import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.kovapss.gitmobile.Constants.OAUTH_REQUEST_CODE
 import com.kovapss.gitmobile.R
+import com.kovapss.gitmobile.entities.Gist
+import com.kovapss.gitmobile.entities.repository.CreateRepositoryModel
+import com.kovapss.gitmobile.entities.repository.Repository
 import com.kovapss.gitmobile.view.gists.GistsFragment
+import com.kovapss.gitmobile.view.gists.create.CreateGistActivity
+import com.kovapss.gitmobile.view.gists.detail.GistDetailActivity
 import com.kovapss.gitmobile.view.login.LoginActivity
+import com.kovapss.gitmobile.view.notifications.NotificationsFragment
 import com.kovapss.gitmobile.view.profile.UserProfileActivity
 import com.kovapss.gitmobile.view.repositories.RepositoriesFragment
-import com.kovapss.gitmobile.view.settings.SettingsActivity
+import com.kovapss.gitmobile.view.repositories.create.CreateRepositoryActivity
+import com.kovapss.gitmobile.view.repositories.detail.RepositoryDetailActivity
+import com.orhanobut.logger.Logger
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.navigation_view_header.*
-import kotlinx.android.synthetic.main.navigation_view_header.view.*
 
 
 class MainActivity : MvpAppCompatActivity(), MainView {
@@ -44,7 +52,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         username_text.text = name
     }
 
-    override fun openUserProfileScreen(username : String) {
+    override fun openUserProfileScreen(username: String) {
         val intent = Intent(this, UserProfileActivity::class.java).apply {
             putExtra(UserProfileActivity.USERNAME_KEY, username)
         }
@@ -64,14 +72,26 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 this?.setHomeButtonEnabled(true)
             }
         }
+        create_repo_fab.setOnClickListener {
+            main_root_fab.collapse()
+            presenter.createRepoFabClicked()
+        }
+
+        create_gist_fab.setOnClickListener {
+            main_root_fab.collapse()
+            presenter.createGistFabClicked()
+        }
+
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
-        val searchView = menu?.findItem(R.id.menu_search)?.actionView as android.widget.SearchView
+        val searchView = menu.findItem(R.id.menu_search).actionView as SearchView
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchView.isSubmitButtonEnabled = true
+        searchView.inputType = InputType.TYPE_CLASS_TEXT
+        searchView.isIconified = true
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -93,9 +113,9 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 .setTitle(getString(R.string.need_to_login))
                 .setMessage(getString(R.string.main_need_to_login))
                 .setCancelable(true)
-                .setPositiveButton(getString(R.string.sign_in)) { _, _ -> presenter.clickOnLogin()}
-                .setNeutralButton(getString(R.string.no), {
-                    p0, _ -> p0.cancel()
+                .setPositiveButton(getString(R.string.sign_in)) { _, _ -> presenter.clickOnLogin() }
+                .setNeutralButton(getString(R.string.no), { p0, _ ->
+                    p0.cancel()
                 })
                 .create()
                 .show()
@@ -106,12 +126,48 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         startActivityForResult(intent, OAUTH_REQUEST_CODE)
     }
 
+    override fun openCreateRepositoryScreen() {
+        startActivityForResult(Intent(this, CreateRepositoryActivity::class.java),
+                CreateRepositoryActivity.GET_REPO_DATA_REQUEST_CODE)
+
+    }
+
+    override fun openCreateGistScreen() {
+        startActivityForResult(Intent(this, CreateGistActivity::class.java),
+                CreateGistActivity.CREATE_GIST_REQUEST_CODE)
+    }
+
+    override fun openRepositoryDetailScreen(repository: Repository) {
+        val intent = Intent(this, RepositoryDetailActivity::class.java)
+                .putExtra(RepositoryDetailActivity.REPOSITORY_KEY, repository)
+
+        startActivity(intent)
+    }
+
+    override fun openGistDetailScreen(gist: Gist) {
+        val intent = Intent(this, GistDetailActivity::class.java)
+                .putExtra(GistDetailActivity.GIST_DETAIL, gist)
+        startActivity(intent)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode){
+        when (requestCode) {
             OAUTH_REQUEST_CODE -> {
-                if (resultCode == Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     presenter.loginSuccessful()
+                }
+            }
+            CreateRepositoryActivity.GET_REPO_DATA_REQUEST_CODE -> {
+                if (resultCode != Activity.RESULT_CANCELED && resultCode == Activity.RESULT_OK && data != null) {
+                    presenter.repositoryDataReceived(data.getParcelableExtra(CreateRepositoryActivity.REPO_DATA_EXTRA_KEY))
+                    Logger.d("repo data was received: " +
+                            "${data.getParcelableExtra<CreateRepositoryModel>(CreateRepositoryActivity.REPO_DATA_EXTRA_KEY)}")
+                }
+            }
+            CreateGistActivity.CREATE_GIST_REQUEST_CODE -> {
+                if (resultCode != Activity.RESULT_CANCELED && resultCode == Activity.RESULT_OK && data != null){
+                    presenter.gistCreateDataReceived(data.getParcelableExtra(CreateGistActivity.CREATE_GIST_DATA_KEY))
                 }
             }
         }
@@ -131,21 +187,27 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         drawer_layout.addDrawerListener(toggle)
         navigation_view.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.menu_home -> {
+                    openFragment(NotificationsFragment())
+                    main_root_fab.visibility = View.VISIBLE
+                }
                 R.id.menu_account -> presenter.clickOnHeader()
                 R.id.menu_gists -> openFragment(GistsFragment())
                 R.id.menu_repos -> openFragment(RepositoriesFragment())
-                R.id.menu_about -> {}
+                R.id.menu_about -> {
+                }
 //                R.id.menu_settings -> startActivity(Intent(this, SettingsActivity::class.java))
             }
+            main_root_fab.visibility = View.INVISIBLE
             setToolbarTitle(item.title.toString())
             closeNavigationDrawer()
             true
         }
         navigation_view.getHeaderView(0).setOnClickListener { presenter.clickOnHeader() }
+//        openFragment(NotificationsFragment())
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean
-            = toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean = toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
 
 
     private fun isNavigationDrawerOpen(): Boolean =
@@ -162,7 +224,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         checkNotNull(supportActionBar).title = title
     }
 
-    private fun openFragment(fragment : Fragment): Boolean {
+    private fun openFragment(fragment: Fragment): Boolean {
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

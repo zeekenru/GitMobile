@@ -7,17 +7,17 @@ import com.kovapss.gitmobile.entities.Comment
 
 interface GistDetailView : MvpView {
 
-    fun showGist(gist : Gist, showLineNumbers : Boolean)
+    fun showGist(gist: Gist, showLineNumbers: Boolean)
 
     fun showComments(comments: List<Comment>)
 
-    fun setGistStarredStatus(isStarred : Boolean)
+    fun setGistStarredStatus(isStarred: Boolean)
 
     fun showLoginDialog()
 
     fun showInternetError()
 
-    fun showUndefinedError(msg : String)
+    fun showUndefinedError(msg: String)
 
     fun showProgress()
 
@@ -25,6 +25,14 @@ interface GistDetailView : MvpView {
 
     fun hideComments()
 
-    fun openGistInBrowser(htmlUrl : String)
+    fun openGistInBrowser(htmlUrl: String)
+
+    fun showEditMenu()
+
+    fun setStarredStatus(isStarred: Boolean)
+
+    fun showDeleteDialog()
+
+    fun returnBack()
 
 }

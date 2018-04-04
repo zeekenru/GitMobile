@@ -16,8 +16,8 @@ abstract class DelegateAdapter<T> : BaseDelegateAdapter<DelegateAdapter.ViewHold
     final override fun onBindViewHolder(view: View, item: T, viewHolder: ViewHolder) =
             onBind(item, viewHolder)
 
-
     override fun createViewHolder(parent: View?): ViewHolder = ViewHolder(parent)
+
 
 
     class ViewHolder(override val containerView: View?) : BaseViewHolder(containerView), LayoutContainer

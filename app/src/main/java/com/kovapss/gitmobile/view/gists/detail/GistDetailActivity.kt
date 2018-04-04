@@ -2,6 +2,7 @@ package com.kovapss.gitmobile.view.gists.detail
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -40,6 +41,8 @@ class GistDetailActivity : MvpAppCompatActivity(), GistDetailView {
 
     private lateinit var starMenuItem: MenuItem
 
+    private lateinit var deleteMenuItem: MenuItem
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Logger.d("intent gist: ${intent.getParcelableExtra<Gist>(GIST_DETAIL)}")
@@ -62,12 +65,15 @@ class GistDetailActivity : MvpAppCompatActivity(), GistDetailView {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         starMenuItem = menu.findItem(R.id.menu_star)
+        deleteMenuItem = menu.findItem(R.id.menu_gist_delete)
+        presenter.optionsMenuPrepared()
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_star -> presenter.clickOnStar()
+            R.id.menu_gist_delete -> presenter.clickOnDelete()
             android.R.id.home -> onBackPressed()
         }
         return true
@@ -137,6 +143,37 @@ class GistDetailActivity : MvpAppCompatActivity(), GistDetailView {
 
     }
 
+    override fun setStarredStatus(isStarred: Boolean) {
+        if (isStarred) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                starMenuItem.icon = getDrawable(R.drawable.ic_star_primary)
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                starMenuItem.icon = getDrawable(R.drawable.ic_star_border)
+            }
+        }
+    }
+
+    override fun showDeleteDialog() {
+       AlertDialog.Builder(this)
+                .setTitle(getString(R.string.delete_gist_title))
+                .setMessage(getString(R.string.delete_gist_message))
+                .setPositiveButton(getString(R.string.delete)) { dialog, _ ->
+                    presenter.deleteConfirmed()
+                    dialog.cancel()
+                }
+                .setNegativeButton(getString(R.string.cancel), { dialog, _ ->
+                    dialog.cancel()
+                })
+                .create().show()
+    }
+
+    override fun returnBack() {
+        onBackPressed()
+        finish()
+    }
+
     override fun showProgress() {
         progress_bar.visibility = View.VISIBLE
     }
@@ -144,7 +181,6 @@ class GistDetailActivity : MvpAppCompatActivity(), GistDetailView {
     override fun hideProgress() {
         progress_bar.visibility = View.INVISIBLE
         gist_detail_recyclerview.visibility = View.VISIBLE
-//        gist_detail_comments_recyclerview.visibility = View.VISIBLE
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -155,6 +191,10 @@ class GistDetailActivity : MvpAppCompatActivity(), GistDetailView {
     override fun setGistStarredStatus(isStarred: Boolean) {
         if (isStarred) {starMenuItem.setIcon(R.drawable.ic_star_primary)}
         else { starMenuItem.setIcon(R.drawable.ic_star_border) }
+    }
+
+    override fun showEditMenu() {
+        deleteMenuItem.isVisible = true
     }
 
     override fun showLoginDialog() {

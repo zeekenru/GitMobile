@@ -4,29 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.gists.GistsFragment">
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/gists_recycler_view"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/gist_bottom_nav_view"
-        android:visibility="invisible"
-        tools:listitem="@layout/gist_item" />
+        android:layout_above="@id/gist_bottom_nav_view">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gists_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/gist_bottom_nav_view"
+            android:visibility="invisible"
+            tools:listitem="@layout/gist_item" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/gists_fab"
-        style="@style/FAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="bottom|end"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="17dp"
-        android:visibility="visible"
-        app:layout_insetEdge="bottom"
-        app:srcCompat="@drawable/ic_add" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/gists_fab"
+            style="@style/FAB"
+            app:fab_size="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/ic_add" />
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <include
         android:id="@+id/progress_bar"
@@ -36,6 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="invisible" />
+
 
     <include
         android:id="@+id/network_error_placeholder"

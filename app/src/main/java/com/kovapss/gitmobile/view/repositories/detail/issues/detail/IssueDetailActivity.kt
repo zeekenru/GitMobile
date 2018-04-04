@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Xml
 import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.MvpAppCompatActivity
@@ -51,7 +50,7 @@ class IssueDetailActivity : MvpAppCompatActivity(), IssueDetailView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.issue_detail_acitivity_menu, menu)
+        menuInflater.inflate(R.menu.issue_detail_menu, menu)
         return true
     }
 
@@ -71,17 +70,17 @@ class IssueDetailActivity : MvpAppCompatActivity(), IssueDetailView {
                 .into(issue_detail_avatar)
         issue_detail_timestamp.text = TimeAgo.using(ISO8601Utils.parse(issue.createDate, ParsePosition(0)).time)
         if (issue.state == "opened"){
-            issue_detail_state.text = "OPENED"
+            issue_detail_state.text = getString(R.string.opened).toUpperCase()
             issue_detail_state.setTextColor(Color.GREEN)
         } else {
-            issue_detail_state.text = "CLOSED"
+            issue_detail_state.text = getString(R.string.closed).toUpperCase()
             issue_detail_state.setTextColor(Color.RED)
         }
-        with(issue_detail_body_view){
-            setShowLineNumbers(true)
-            setZoomSupportEnabled(true)
-            loadData(issue.body,"text/plain", Xml.Encoding.UTF_8.name)
-        }
+//        with(issue_detail_body_view){
+//            setShowLineNumbers(true)
+//            setZoomSupportEnabled(true)
+//            loadData(issue.body,"text/plain", Xml.Encoding.UTF_8.name)
+//        }
 
     }
 

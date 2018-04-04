@@ -9,9 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.kovapss.gitmobile.R
 import com.kovapss.gitmobile.entities.GistFile
-import com.pddstudio.highlightjs.models.Theme
+import io.github.kbiakov.codeview.highlight.ColorTheme
 import kotlinx.android.synthetic.main.gist_detail_item.view.*
-import java.net.URL
 
 
 class GistDetailListAdapter(private val data: List<GistFile>,
@@ -33,10 +32,8 @@ class GistDetailListAdapter(private val data: List<GistFile>,
 
     class ViewHolder(itemView: View, private val listener: (MenuItem) -> Boolean) : RecyclerView.ViewHolder(itemView) {
         fun bind(file: GistFile, showLineNumbers: Boolean) {
-            itemView.gist_detail_codeview.setSource(URL(file.rawUrl))
-            itemView.gist_detail_codeview.setZoomSupportEnabled(true)
-            itemView.gist_detail_codeview.setShowLineNumbers(showLineNumbers)
-            itemView.gist_detail_codeview.theme = Theme.GITHUB_GIST
+            itemView.gist_detail_codeview.setCode(file.content!!)
+            itemView.gist_detail_codeview.getOptions()!!.setTheme(ColorTheme.MONOKAI)
             val popupMenu = PopupMenu(itemView.context, itemView)
             popupMenu.inflate(R.menu.gist_file_menu)
             popupMenu.gravity = GravityCompat.END
